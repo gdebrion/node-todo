@@ -1,0 +1,90 @@
+html {
+    height: 100%;
+    width: 100%;
+
+    background: #e4efc0;
+    background: -moz-linear-gradient(-45deg, #e4efc0 0%, #abbd73 100%);
+    background: -webkit-linear-gradient(-45deg, #e4efc0 0%,#abbd73 100%);
+    background: linear-gradient(135deg, #e4efc0 0%,#abbd73 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4efc0', endColorstr='#abbd73',GradientType=1 );
+}
+
+body {
+    height: 100%;
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wrapper {
+    max-width: 25%;
+    flex: 0 0 25%;
+}
+
+h1 {
+    color: #FFF;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 20px;
+}
+
+    .group input {
+        background: transparent;
+        color: #fff;
+        border: 3px #fff solid;
+        border-radius: 10px 0 0 10px;
+        font-size: 1.3em;
+        padding: 10px;
+    }
+
+    .group button {
+        background: #fff;
+        border: 3px #fff solid;
+        border-radius: 0 10px 10px 0;
+        font-size: 1.3em;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 250ms ease-in;
+    }
+
+        .group button:hover {
+          
+        }
+
+.center {
+    text-align: center;
+}
+
+#todolist {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    #todolist li {
+        margin: 15px 0 0 0;
+        border-bottom: 1px #FFF dotted;
+    }
+
+.btn-delete {
+    float: right;
+    cursor: pointer;
+}

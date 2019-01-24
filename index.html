@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Liste de tâches</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div class="wrapper">
+            <h1>Liste de tâches</h1>
+
+            <div id="emptyTodolist">
+                <p class="center">Félicitation, il n'y a rien à faire (pour l'instant !)</p>
+                <img src="https://media.giphy.com/media/sDolZxlEp3QVG/giphy.gif" alt="Rien à faire">
+            </div>
+
+            <ul id="todolist">
+
+            </ul>
+
+            <form action="#">
+                <div class="group">
+                    <input type="text" name="new_item" id="new_item" placeholder="Nouvelle tâche">
+                    <button id="add" type="submit">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        function addTask(task) {
+            $('#emptyTodolist').fadeOut();
+
+            // On prépare notre <li>
+            var li = '<li id="task-'+task.id+'" style="display: none">'+task.text+
+                ' <span class="btn-delete" data-id="'+task.id+'" title="Supprimer cette tâche">&times;</span></li>';
+
+            $('#todolist').append(li);
+            $('#todolist li:last').fadeIn(); // Petit effet wahou (non ?)
+        }
+
+        function removeTask(id) {
+            $('#todolist #task-'+id).fadeOut(function() { $(this).remove(); });
+        }
+
+        var socket = io();
+
+        socket.emit('init');
+
+        // Réception depuis le serveur de la liste des tâches existantes
+        socket.on('init', function(todolist) {
+            todolist.forEach(function(item) {
+                addTask(item);
+            });
+        });
+
+        // Ajout d'une tâche
+        $('#add').on('click', function(event) {
+            event.preventDefault();
+
+            socket.emit('add', $('#new_item').val());
+            // Pas besoin d'ajouter à la main la tâche : elle va revenir via le serveur
+
+            $('#new_item').val('').focus();
+        });
+
+        // Réception d'une tâche
+        socket.on('add', function(task) {
+            addTask(task);
+        });
+
+        // Suppression d'une tâche
+        $('#todolist').on('click', '.btn-delete', function(event) {
+            socket.emit('delete', $(this).data('id'));
+            removeTask($(this).data('id'));
+        });
+
+        // Réception de la suppression d'une tâche
+        socket.on('delete', function(id) {
+            removeTask(id);
+        });
+    </script>
+</body>
+
+</html>
